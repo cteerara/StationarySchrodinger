@@ -2,9 +2,15 @@ import tensorflow as tf
 tf.enable_eager_execution();
 
 def zeroes(dimvec):
-    return (tf.zeros(dimvec, tf.float64));
+    # Generate tensorflow array of zeroes of size dimvec
+    # INPUT: [int a, int b]
+    # OUTPUT: a-by-b Tensorflow array of zeroes of type float64
+    return (tf.Variable(tf.zeros(dimvec, dtype=tf.float64)));
 
 def compare(t1,t2):
+    # Compare two 2D tensorflow arrays
+    # INPUT: tensorflow arrays t1,t2
+    # OUTPUT: true if t1==t2, else false
     t1size = t1.get_shape();
     t2size = t2.get_shape();
     isequal = True;
@@ -18,8 +24,3 @@ def compare(t1,t2):
                 isequal = ( isequal and tf.Variable(tf.math.equal(t1elem,t2elem)) )
     return isequal;
 
-t1 = zeroes([2,2])
-t2 = tf.constant(0,shape=[],dtype=tf.float64)
-print(t2)
-tf.assign(t1[0,0],t2)
-print(t1)
