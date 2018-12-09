@@ -1,5 +1,6 @@
 import tensorflow as tf
 tf.enable_eager_execution();
+import tfAPI
 
 def readPotentialEnergy(filepath):
     # Function reads potential potential energy from a text file
@@ -22,8 +23,14 @@ def readPotentialEnergy(filepath):
     entf = tf.constant(en,shape=[len(en)],dtype=tf.float64)
     return [postf,entf]
 
-#x = readPotentialEnergy('potential_energy.dat')
+#x = readPotentialEnergy('../tests/IOtest.dat')
+#x0 = tf.constant([0.,1.,2.,3.],dtype=tf.float64)
+#y = x0.get_shape();
+#for i in range(0,y[0]):
+#  print(i)
+#
 #print(x[0])
 #print(x[1])
+#print(tfAPI.compare(x0,x[0]))
 #pos = x[0];
 #print(pos[1]-pos[0])
