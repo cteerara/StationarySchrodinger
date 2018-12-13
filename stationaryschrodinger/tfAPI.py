@@ -45,9 +45,10 @@ def tflen(t):
         raise ValueError('input array is not 1D')
     return tf.reshape(tf.shape(t),[])
 
-def integrate(t1,t2):
+def integrate(t1,t2,dx):
     # INPUT: 1D tensorflow arrays of the same length t1,t2
     #        t1 and t2 are vector representing a function defined on the same domain at the same evenly spaced grid points
+    #        dx is the spacings between gridpoints
     # OUTPUT: tout where tout = \Sum_i(t1[i]*t2[i])
     #         tout is the result of a numerical integration of t1*t2
 
@@ -55,10 +56,10 @@ def integrate(t1,t2):
     scalar1 = tf.constant(1)
     if not compare(tflen(t1),tflen(t2)):  
         raise ValueError('Input arrays are not the same shape')
-    
-    tout = tf.reduce_sum(t1*t2)
-    return tout
-
+    n = tflen(t1)
+    tout = tf.reshape(tf.reduce_sum(t1[0:n-1]*t2[0:n-1]),[])
+    return tout*dx
+#
 #t1 = tf.constant([3,4])
 #t2 = tf.constant([1,2])
 #print(integrate(t1,t2))

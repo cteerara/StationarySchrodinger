@@ -18,7 +18,7 @@ def FPoly(x,n):
     np = n+1; # Number of modes.
     fpoly = [];
     ones = []
-    for i in range(0,np-1):
+    for i in range(0,tfAPI.tflen(x)):
       ones.append(1.)
     
     fpoly.append(tf.constant(ones,dtype=tf.float64))
@@ -29,9 +29,10 @@ def FPoly(x,n):
 
     return fpoly
     
-def project(F,b):
+def project(F,b,x):
     # INPUT: tensorflow array F
     #        array of tensorflow arrays b where b[i] is the i-th basis of the basis set
+    #        x is a 1D tensorflow array of evenly spaced positions used as the bounds of integration. len(x) == len(F) == len(b[i])
     # OUTPUT: Tensorflow array A where A[i] is the coefficient of basis b[i] 
     #         and \Sum_0^n(A[i]B[i]) is the projection of F onto basis b
     np = len(b)
@@ -41,11 +42,23 @@ def project(F,b):
 #        print('**** currently on mode n =',n)
 #        print(b[i])
 #        print(b[i+1])
-    c = []
+    tmparr = []
+    dx = x[1]-x[0]
     for i in range(0,np):
-        c.append(tf.reshape(tfAPI.integrate(F,b[i]),[]))
-    A = tf.Variable(c,dtype=tf.float64)
-    return A
+        tmparr.append( tfAPI.integrate(F,b[i],dx) )
+    FdotB = tf.Variable(tmparr,dtype=tf.float64)
+    FPdotB_mat = []
+    for i in range(0,np):
+        FPdotB_mat.append([])
+    for i in range(0,np):
+        for j in range(0,np):
+            FPdotB_mat[i].append(0)
+    for i in range(0,np):
+        for j in range(0,np):
+            FPdotB_mat[i][j] = tfAPI.integrate(b[i],b[j],dx)
+    FPdotB_mat = tf.Variable(FPdotB_mat,dtype=tf.float64)
+    
+    return FPdotB_mat
 
 
 
@@ -53,12 +66,12 @@ pi = 4*math.atan(1.0)
 x = tf.constant([0,pi/2],dtype=tf.float64)
 n = tf.shape(x)
 n = n[0]
-b = FPoly(x,2)
+b = FPoly(x,0)
 F = tf.constant([1,1],dtype=tf.float64)
 for i in range(0,len(b)):
     print(b[i])
 print('*****************')
-print(project(F,b))
+print(project(F,b,x))
 
 #x1 = tf.constant(1)
 #x2 = tf.constant(2)
