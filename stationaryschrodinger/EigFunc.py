@@ -49,7 +49,7 @@ def project(F,b,x):
     dx = x[1]-x[0]
     # Create a list of 1D tensorflow arrays <F,b[i]> 
     for i in range(0,np):
-        FdotB.append( tfAPI.integrate(F,b[i],dx) )
+        FdotB.append( tfAPI.integrate(F,b[i],x) )
     FdotB = tf.Variable(FdotB,dtype=tf.float64)
 
     
@@ -61,33 +61,52 @@ def project(F,b,x):
             LHS[i].append(0)
     for i in range(0,np):
         for j in range(0,np):
-            LHS[i][j] = tfAPI.integrate(b[i],b[j],dx)
+            LHS[i][j] = tfAPI.integrate(b[i],b[j],x)
     LHS = tf.Variable(LHS,dtype=tf.float64)
 
     RHS = []
     for i in range(0,np):
-        RHS.append(tfAPI.integrate(b[i],F,dx))
+        RHS.append(tfAPI.integrate(b[i],F,x))
     RHS = tf.Variable(RHS,dtype=tf.float64)
     
 #    return tf.linalg.matmul(tf.linalg.inv(FPdotB_mat),tf.reshape(FdotB_vec,[len(b),1]))
-    return tf.linalg.solve(LHS,rhs=tf.reshape(RHS,[len(b),1]))
+    return tf.reshape( tf.linalg.solve(LHS,rhs=tf.reshape(RHS,[len(b),1])), [len(b)] )
+
+def Hij(x,b,c,ProjV):
+  n = len(b)
+  Hij = []
+  for i in range(0,n):
+    Hij.append([])
+  for i in range(0,n):
+    nmode = 1
+    for j in range(0,n):
+      if (i==0 and j == 0) or (i != j):
+        Hij[i].append(tf.reshape(ProjV[i],[]))
+      elif i==j:
+        Hij[i].append(nmode**2*c+tf.reshape(ProjV[i],[]))
+        if j%2 == 0:
+          nmode = nmode+1
+  return tf.Variable(Hij,dtype=tf.float64)
 
 
-
-#pi = 4*math.atan(1.0)
+pi = 4*math.atan(1.0)
 ##x = tf.constant([0,pi/2,pi,3*pi/2,2*pi],dtype=tf.float64)
-#x = []
+x = [0,pi/2,pi]
 #n = 4
 #for i in range(0,n+1):
 #    x.append(i*pi/n)
-#x = tf.constant(x,dtype=tf.float64)
+x = tf.constant(x,dtype=tf.float64)
 #
-#n = tf.shape(x)
-#n = n[0]
-#b = FPoly(x,5)
-#F = tf.math.cos(2*x)
-#for i in range(0,len(b)):
-#    print(b[i])
-#print('*****************')
-#print(project(F,b,x))
-#
+n = tf.shape(x)
+n = n[0]
+b = FPoly(x,3)
+F = [0,6,0]
+F = tf.constant(F,dtype=tf.float64) 
+for i in range(0,len(b)):
+    print(b[i])
+print('*****************')
+ProjV = project(F,b,x)
+print(ProjV)
+print('*****************')
+print(Hij(x,b,1,ProjV))
+

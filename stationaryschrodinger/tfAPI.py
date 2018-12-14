@@ -45,7 +45,7 @@ def tflen(t):
         raise ValueError('input array is not 1D')
     return tf.reshape(tf.shape(t),[])
 
-def integrate(t1,t2,dx):
+def integrate(t1,t2,x):
     # INPUT: 1D tensorflow arrays of the same length t1,t2
     #        t1 and t2 are vector representing a function defined on the same domain at the same evenly spaced grid points
     #        dx is the spacings between gridpoints
@@ -53,6 +53,10 @@ def integrate(t1,t2,dx):
     #         tout is the result of a numerical integration of t1*t2
 
     #> Handle inappopriate size/dim array
+    dx = x[1]-x[0]
+    for i in range(0,tflen(x)-1):
+      if (dx-(x[i+1]-x[i])) > 1e-6:
+        raise ValueError('Gridpoint are not evenly spaced. The difference of the spacings exceeds 1e-6')
     scalar1 = tf.constant(1)
     if not compare(tflen(t1),tflen(t2)):  
         raise ValueError('Input arrays are not the same shape')
