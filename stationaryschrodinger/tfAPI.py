@@ -23,7 +23,8 @@ def compare(t1,t2):
     if (not isequal):
       return False;
     else: 
-        EqualTensor = tf.math.equal(t1,t2)
+        tol = tf.constant(1e-6,shape=t1size,dtype=tf.float64)
+        EqualTensor = tf.math.less( tf.math.abs(t1-t2), tol)
         isequal = tf.math.reduce_all(EqualTensor)
         if (isequal):
           return True;
@@ -63,6 +64,9 @@ def integrate(t1,t2,x):
     n = tflen(t1)
     tout = tf.reshape(tf.reduce_sum(t1[0:n-1]*t2[0:n-1]),[])
     return tout*dx
+
+#t1 = tf.constant(2,shape=[2,2],dtype=tf.float64)
+#print(t1)
 #
 #t1 = tf.constant([3,4])
 #t2 = tf.constant([1,2])

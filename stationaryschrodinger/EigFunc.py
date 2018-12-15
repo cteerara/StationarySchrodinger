@@ -89,24 +89,24 @@ def Hij(x,b,c,ProjV):
   return tf.Variable(Hij,dtype=tf.float64)
 
 
-pi = 4*math.atan(1.0)
-##x = tf.constant([0,pi/2,pi,3*pi/2,2*pi],dtype=tf.float64)
-x = [0,pi/2,pi]
-#n = 4
-#for i in range(0,n+1):
-#    x.append(i*pi/n)
-x = tf.constant(x,dtype=tf.float64)
+#pi = 4*math.atan(1.0)
+###x = tf.constant([0,pi/2,pi,3*pi/2,2*pi],dtype=tf.float64)
+#x = [0,pi/2,pi]
+##n = 4
+##for i in range(0,n+1):
+##    x.append(i*pi/n)
+#x = tf.constant(x,dtype=tf.float64)
+##
+#n = tf.shape(x)
+#n = n[0]
+#b = FPoly(x,3)
+#F = [0,6,0]
+#F = tf.constant(F,dtype=tf.float64) 
+#for i in range(0,len(b)):
+#    print(b[i])
+#print('*****************')
+#ProjV = project(F,b,x)
+#print(ProjV)
+#print('*****************')
+#print(Hij(x,b,1,ProjV))
 #
-n = tf.shape(x)
-n = n[0]
-b = FPoly(x,3)
-F = [0,6,0]
-F = tf.constant(F,dtype=tf.float64) 
-for i in range(0,len(b)):
-    print(b[i])
-print('*****************')
-ProjV = project(F,b,x)
-print(ProjV)
-print('*****************')
-print(Hij(x,b,1,ProjV))
-

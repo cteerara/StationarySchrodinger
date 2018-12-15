@@ -59,17 +59,26 @@ def test_tfAPI_compare():
   # Case: elements not equal
   assert(not tfAPI.compare(t3,t4))
   # case: IS equal
-  assert(tfAPI.compare(t3,t3))
+  assert(tfAPI.compare(t3,t3+1e-7)) # Check if it exceeds tol
 
 def test_tfAPI_zeroes():
   t1 = tfAPI.zeroes([2,2])
   t2 = tf.Variable([[0.,0.],[0.,0.]],dtype=tf.float64)
   assert(tfAPI.compare(t1,t2))
 
+def test_tfdim():
+  t1 = tfAPI.zeroes([2,2])
+  tdim = tf.constant(2)
+  assert(tfAPI.compare(tfAPI.tfdim(t1),tdim))
+
+#def test_tflen():
+#  t1 = tf.constant([1,2,3])
+#  assert(tfAPI.compare( tfAPI.tflen(t1),tf.reshape(tf.shape(t),[]) ))
 #-------------------------------------------------------------------#
 #------------- TEST IO.py ------------------------------------------#
 #-------------------------------------------------------------------#
 
 def test_IO_readPotentialEnergy():
   x = IO.readPotentialEnergy('tests/IOtest.dat')
-  assert(tfAPI.compare(x[0],x[0])
+  assert(tfAPI.compare(x[0],x[0]))
+
