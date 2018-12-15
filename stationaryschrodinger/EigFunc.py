@@ -22,7 +22,7 @@ def FPoly(x,n):
     for i in range(0,tfAPI.tflen(x)):
       ones.append(1.)
     
-    fpoly.append(tf.constant(ones,dtype=tf.float64))
+    fpoly.append(tf.constant(ones,dtype=x.dtype))
     #> Fill up modes n > 0
     nmode = 1
     for i in range(1,np):
@@ -47,11 +47,6 @@ def project(F,b,x):
     nmax = (np-1)//2+1 # maximum n-modes
     FdotB = []
     dx = x[1]-x[0]
-    # Create a list of 1D tensorflow arrays <F,b[i]> 
-    for i in range(0,np):
-        FdotB.append( tfAPI.integrate(F,b[i],x) )
-    FdotB = tf.Variable(FdotB,dtype=tf.float64)
-
     
     LHS = []
     for i in range(0,np):
@@ -62,17 +57,17 @@ def project(F,b,x):
     for i in range(0,np):
         for j in range(0,np):
             LHS[i][j] = tfAPI.integrate(b[i],b[j],x)
-    LHS = tf.Variable(LHS,dtype=tf.float64)
+    LHS = tf.Variable(LHS,dtype=x.dtype)
 
     RHS = []
     for i in range(0,np):
         RHS.append(tfAPI.integrate(b[i],F,x))
-    RHS = tf.Variable(RHS,dtype=tf.float64)
+    RHS = tf.Variable(RHS,dtype=x.dtype)
     
 #    return tf.linalg.matmul(tf.linalg.inv(FPdotB_mat),tf.reshape(FdotB_vec,[len(b),1]))
     return tf.reshape( tf.linalg.solve(LHS,rhs=tf.reshape(RHS,[len(b),1])), [len(b)] )
 
-def Hij(x,b,c,ProjV):
+def hamil(x,b,c,ProjV):
   n = len(b)
   Hij = []
   for i in range(0,n):
@@ -86,27 +81,46 @@ def Hij(x,b,c,ProjV):
         Hij[i].append(nmode**2*c+tf.reshape(ProjV[i],[]))
         if j%2 == 0:
           nmode = nmode+1
-  return tf.Variable(Hij,dtype=tf.float64)
+  return tf.Variable(Hij,dtype=x.dtype)
 
+def Eigen(Hij):
+  Hij = tf.cast(Hij,tf.float64)
+  EigVecVal = tf.linalg.eigvalsh(Hij,name=None)
+  print(EigVecVal)
+  return EigVecVal
 
-#pi = 4*math.atan(1.0)
-###x = tf.constant([0,pi/2,pi,3*pi/2,2*pi],dtype=tf.float64)
-#x = [0,pi/2,pi]
-##n = 4
-##for i in range(0,n+1):
-##    x.append(i*pi/n)
-#x = tf.constant(x,dtype=tf.float64)
-##
-#n = tf.shape(x)
-#n = n[0]
-#b = FPoly(x,3)
-#F = [0,6,0]
-#F = tf.constant(F,dtype=tf.float64) 
-#for i in range(0,len(b)):
-#    print(b[i])
-#print('*****************')
-#ProjV = project(F,b,x)
-#print(ProjV)
-#print('*****************')
-#print(Hij(x,b,1,ProjV))
+pi = 4*math.atan(1.0)
+##x = tf.constant([0,pi/2,pi,3*pi/2,2*pi],dtype=tf.float64)
+x = [0,pi/2,pi]
+#n = 4
+#for i in range(0,n+1):
+#    x.append(i*pi/n)
 #
+x = tf.constant(x,dtype=tf.float32)
+n = tf.shape(x)
+n = n[0]
+b = FPoly(x,3)
+print("Haiiii")
+F = [0,1,0]
+F = tf.constant(F,dtype=x.dtype) 
+print('*****************')
+print('Basis vectors are')
+for i in range(0,len(b)):
+    print(b[i])
+print('*****************')
+print('Projection of F is')
+ProjV = project(F,b,x)
+print(ProjV)
+print('*****************')
+print('Hamiltonian is')
+Hij = hamil(x,b,1,ProjV)
+print(Hij)
+print('*****************')
+print('Eigen value and vectors are')
+EigVecVal = Eigen(Hij)
+#print(EigVecVal[0])
+#print(EigVecVal[1])
+#a = tf.Variable([[0.0,0.0,0.0],[6.0,7.0,6.0],[0.0,0.0,1.0]])
+#e, v = tf.linalg.eigh(a,name=None)
+#print(e)
+#print(v)
