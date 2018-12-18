@@ -67,60 +67,67 @@ def project(F,b,x):
 #    return tf.linalg.matmul(tf.linalg.inv(FPdotB_mat),tf.reshape(FdotB_vec,[len(b),1]))
     return tf.reshape( tf.linalg.solve(LHS,rhs=tf.reshape(RHS,[len(b),1])), [len(b)] )
 
-def hamil(x,b,c,ProjV):
+def hamil(x,b,c,V):
   n = len(b)
   Hij = []
   for i in range(0,n):
     Hij.append([])
+
+
+  nmode = 0
   for i in range(0,n):
-    nmode = 1
     for j in range(0,n):
-      if (i==0 and j == 0) or (i != j):
-        Hij[i].append(tf.reshape(ProjV[i],[]))
-      elif i==j:
-        Hij[i].append(nmode**2*c+tf.reshape(ProjV[i],[]))
+      if i==j:
+        Hij[i].append(nmode**2*c)
         if j%2 == 0:
           nmode = nmode+1
+      else:
+        Hij[i].append(0.0)
+
+    Hij[0][0] = 0.0
+
+  for i in range(0,n):
+    for j in range(0,i+1):
+      # <b[i]|V|b[j]>
+      Bra_bi_V_bj_Ket = tfAPI.integrate(b[i]*V,b[j],x)
+      Hij[i][j] = Hij[i][j] + Bra_bi_V_bj_Ket
+      if i != j:
+        # Symmetry
+        Hij[j][i] = Hij[j][i]+Bra_bi_V_bj_Ket
+        
   return tf.Variable(Hij,dtype=x.dtype)
 
-def Eigen(Hij):
-  Hij = tf.cast(Hij,tf.float64)
-  EigVecVal = tf.linalg.eigvalsh(Hij,name=None)
-  print(EigVecVal)
+def LowestEnergy(Hij):
+  EigVecVal = tf.linalg.eigh(Hij,name=None)
   return EigVecVal
 
-pi = 4*math.atan(1.0)
-##x = tf.constant([0,pi/2,pi,3*pi/2,2*pi],dtype=tf.float64)
-x = [0,pi/2,pi]
-#n = 4
+#pi = 4*math.atan(1.0)
+###x = tf.constant([0,pi/2,pi,3*pi/2,2*pi],dtype=tf.float64)
+#n = 100
+#x = []
+#F = []
 #for i in range(0,n+1):
-#    x.append(i*pi/n)
+#    x.append(i*2*pi/n)
+#   # F.append(math.sin(i*2*pi/n))
+#    F.append(1.0)
+#x = tf.constant(x,dtype=tf.float32)
+#F = tf.constant(F,dtype=x.dtype) 
 #
-x = tf.constant(x,dtype=tf.float32)
-n = tf.shape(x)
-n = n[0]
-b = FPoly(x,3)
-print("Haiiii")
-F = [0,1,0]
-F = tf.constant(F,dtype=x.dtype) 
-print('*****************')
-print('Basis vectors are')
-for i in range(0,len(b)):
-    print(b[i])
-print('*****************')
-print('Projection of F is')
-ProjV = project(F,b,x)
-print(ProjV)
-print('*****************')
-print('Hamiltonian is')
-Hij = hamil(x,b,1,ProjV)
-print(Hij)
-print('*****************')
-print('Eigen value and vectors are')
-EigVecVal = Eigen(Hij)
-#print(EigVecVal[0])
-#print(EigVecVal[1])
-#a = tf.Variable([[0.0,0.0,0.0],[6.0,7.0,6.0],[0.0,0.0,1.0]])
-#e, v = tf.linalg.eigh(a,name=None)
-#print(e)
-#print(v)
+#b = FPoly(x,3)
+#print("Haiiii")
+#print('*****************')
+#print('Basis vectors are')
+#for i in range(0,len(b)):
+#    print(b[i])
+#print('*****************')
+#print('PROJECTION OF F')
+#ProjV = project(F,b,x)
+#print(ProjV)
+#print('*****************')
+#print('HAMILTONIAN')
+#Hij = hamil(x,b,1,F)
+#print(Hij)
+#print('*****************')
+#print('EIGEN VALUES')
+#EigVecVal = LowestEnergy(Hij)
+#print(EigVecVal)
