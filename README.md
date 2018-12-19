@@ -31,7 +31,7 @@ See the script in StationarySchrodinger/example/SSExample.py for an example of t
 ## Coverage
   To perform coverage test. 
 
-  * go to the package directory '/StationarySchrodinger/'
+  * go to the package directory '* /StationarySchrodinger/'
   * Run the following script:
   ```sh
   coverage run --source=stationaryschrodinger setup.py test
