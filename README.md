@@ -100,15 +100,15 @@ See the script in StationarySchrodinger/example/SSExample.py for an example of u
           
     * **tflen(t)**
 
-     INPUT: 
-
-      1D tensorflow array t
-
-     OUTPUT: 
-
-      n where n is the length of t
-
-      e.g., [1,1,1] has n==3
+	     INPUT: 
+	
+	      1D tensorflow array t
+	
+	     OUTPUT: 
+	
+	      n where n is the length of t
+	
+	      e.g., [1,1,1] has n==3
 
           
     * **integrate(t1,t2,x)** 
