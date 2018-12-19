@@ -34,17 +34,17 @@ See the script in StationarySchrodinger/example/SSExample.py for an example of u
     This module handles IO operations for the package. 
     #### Functions:
     * **readPotentialEnergy(filepath)**
+
          Function reads potential potential energy from a text file
 
-         INPUT: path from the current working directory to the potential energy file 
+         INPUT: 
+          path from the current working directory to the potential energy file 
+          input file MUST NOT contain an empty line
 
-                input file MUST NOT contain an empty line
-
-         OUTPUT: output list of length 2. 
-
-                 output[0] is a tensorflow array of positions
-
-                 output[1] is a tensorflow array of potential energy value
+         OUTPUT: 
+          output list of length 2. 
+          output[0] is a tensorflow array of positions
+          output[1] is a tensorflow array of potential energy value
 
     * **readConsts(filepath)**
          Function reads the basis size and constant from a text file
