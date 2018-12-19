@@ -56,9 +56,11 @@ See the script in StationarySchrodinger/example/SSExample.py for an example of u
          Function reads the basis size and constant from a text file
 
          INPUT:
+
            path from the current working directory to an input file. Each line indicates the constant name followed by white space then the constant value
 
          OUTPUT: 
+
             A list of constants. Each entry corresponds to each constants from the text file from top to bottom of the file
 
 
@@ -74,20 +76,24 @@ See the script in StationarySchrodinger/example/SSExample.py for an example of u
         Compare two 2D tensorflow arrays
 
         INPUT: 
+
           tensorflow arrays t1,t2
 
           tolerence tol
 
         OUTPUT: 
+
           if (t1[i][j]-t2[i][j]) < tol for all (i,j) return true, else false
 
 
     * **tfdim(t)**  
 
         INPUT: 
+
           tensorflow array t
 
         OUTPUT: 
+
           n where n is the number of dimensions of t 
 
           e.g., [1,1,1] has n == 1 (1D array) and [[1,1],[2,2]] has n==2 (2D array)
@@ -95,9 +101,11 @@ See the script in StationarySchrodinger/example/SSExample.py for an example of u
     * **tflen(t)**
 
      INPUT: 
+
       1D tensorflow array t
 
      OUTPUT: 
+
       n where n is the length of t
 
       e.g., [1,1,1] has n==3
