@@ -1,7 +1,15 @@
 
 > Stationary Schrodinger equation
 
-## Usage
+## About the package
+  * The package provides functions that calculates the lowest energy state of a Hamiltonian of the Stationary Schrodinger equation. 
+  * The user must provide 2 input files. The first file contains a table of positions and potential energy. The second file contains the basis size and the constant in front of the laplacian term in the Schrodinger equation. Functions that read those files are provided in ssIO.py
+  * The Hamiltonian and the corresponding lowest Eigen Value and Vector is calculated on the domain provided in the potential energy input file.
+  * A coarse discritization may result in an inaccurate integration. This will result in inaccurate energy state or failed projection operation.
+
+   
+
+## Installation and Usage
   * Download the repository.
 
   * This package require the tensorflow library. Make sure that the library is installed
@@ -17,6 +25,9 @@ from stationaryschrodinger import sstfAPI
 from stationaryschrodinger import ssIO
 from stationaryschrodinger import EigFunc
 ```
+Then call the functions in the modules as explained below.  
+See the script in StationarySchrodinger/example/SSExample.py for an example of the usage.  
+
 ## Coverage
   To perform coverage test. 
 
@@ -26,8 +37,6 @@ from stationaryschrodinger import EigFunc
   coverage run --source=stationaryschrodinger setup.py test
   coverage report -m
   ```
-Then call the functions in the modules as explained below.  
-See the script in StationarySchrodinger/example/SSExample.py for an example of usage.  
 
 ## Modules
 * ### ssIO
