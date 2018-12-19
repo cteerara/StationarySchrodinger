@@ -14,7 +14,7 @@ sys.path.append("../")
 from click.testing import CliRunner
 
 from stationaryschrodinger import cli
-from stationaryschrodinger import sstfAPI
+from stationaryschrodinger import tfAPI
 from stationaryschrodinger import ssIO
 from stationaryschrodinger import EigFunc
 
@@ -45,7 +45,7 @@ def test_command_line_interface():
     assert '--help  Show this message and exit.' in help_result.output
 
 #-------------------------------------------------------------------#
-#------------- TEST sstfAPI.py ---------------------------------------#
+#------------- TEST tfAPI.py ---------------------------------------#
 #-------------------------------------------------------------------#
 tol = 1e-6
 def test_compare():
@@ -54,30 +54,30 @@ def test_compare():
   t3 = tf.constant([[1,1],[2,2]],dtype=tf.float64)
   t4 = tf.constant([[1,1],[2,3]],dtype=tf.float64)
   # Case: dimension is not equal
-  assert(not sstfAPI.compare(t1,t2,tol))
+  assert(not tfAPI.compare(t1,t2,tol))
   # Case: type mismatch
-  assert(not sstfAPI.compare(t1,tf.cast(t1,tf.float32),tol))
+  assert(not tfAPI.compare(t1,tf.cast(t1,tf.float32),tol))
   # Case: size noe equal
-  assert(not sstfAPI.compare(t2,t3,tol))
+  assert(not tfAPI.compare(t2,t3,tol))
   # Case: elements not equal
-  assert(not sstfAPI.compare(t3,t4,tol))
+  assert(not tfAPI.compare(t3,t4,tol))
   # case: IS equal
-  assert(sstfAPI.compare(t3,t3+1e-7,tol)) # Check if it exceeds tol
+  assert(tfAPI.compare(t3,t3+1e-7,tol)) # Check if it exceeds tol
 
 def test_tfdim():
   t1 = tf.constant(0,shape=[2,2])
   tdim = tf.constant(2)
-  assert(sstfAPI.compare(sstfAPI.tfdim(t1),tdim,tol))
+  assert(tfAPI.compare(tfAPI.tfdim(t1),tdim,tol))
 
 def test_tflen():
   t1 = tf.constant([1,2,3])
-  assert(sstfAPI.compare( sstfAPI.tflen(t1),tf.constant(3),tol))
+  assert(tfAPI.compare( tfAPI.tflen(t1),tf.constant(3),tol))
 
 def test_integrate():
   x = tf.Variable([2,4,6])
   F = tf.Variable([1,1,1])
   Fint = tf.Variable(4)
-  assert(sstfAPI.compare( Fint, sstfAPI.integrate(F,F,x),tol))
+  assert(tfAPI.compare( Fint, tfAPI.integrate(F,F,x),tol))
   
 #-------------------------------------------------------------------#
 #------------- TEST IO.py ------------------------------------------#
@@ -86,8 +86,8 @@ def test_integrate():
 def test_IO_readPotentialEnergy():
   tol = 1e-6
   x = ssIO.readPotentialEnergy('tests/testIO_pot.dat')
-  assert(sstfAPI.compare(x[0],tf.constant([0,1,2],dtype=tf.float64),tol))
-  assert(sstfAPI.compare(x[1],tf.constant([0,1,2],dtype=tf.float64),tol))
+  assert(tfAPI.compare(x[0],tf.constant([0,1,2],dtype=tf.float64),tol))
+  assert(tfAPI.compare(x[1],tf.constant([0,1,2],dtype=tf.float64),tol))
 
 def test_IO_readConsts():
   x = ssIO.readConsts('tests/testIO_consts.dat')
@@ -105,7 +105,7 @@ def test_FPoly():
   b = tf.cast(EigFunc.FPoly(x,3),tf.float32)
   bActual = [tf.constant([1,1,1],dtype=tf.float32),tf.constant([0,1,0],dtype=tf.float32),tf.constant([1,0,-1],dtype=tf.float32)]
   for i in range(0,3):  
-    assert(sstfAPI.compare( b[i] , bActual[i],tol))
+    assert(tfAPI.compare( b[i] , bActual[i],tol))
 
 def test_project():
   pi = 4*math.atan(1.0)
@@ -115,7 +115,7 @@ def test_project():
   F = tf.Variable([0,1,0],dtype=tf.float32)
   FProjActual = tf.constant([0,1,0],dtype=tf.float32)
   FProj = EigFunc.project(F,b,x)
-  assert(sstfAPI.compare(FProj,FProjActual,tol))
+  assert(tfAPI.compare(FProj,FProjActual,tol))
 
 def test_Hij():
   pi = 4*math.atan(1.0)
@@ -140,12 +140,12 @@ def test_Hij():
 
   HijActual = tf.constant(HijActual,dtype=tf.float32)
 
-  assert(sstfAPI.compare(Hij,HijActual,tol))
+  assert(tfAPI.compare(Hij,HijActual,tol))
 
 def test_Eig():
   tol = 1e-6
   EigVecVal = EigFunc.Eig(tf.constant([[2.,0.],[0.,1.]]))
-  assert( sstfAPI.compare( tf.constant([1.,2.]),EigVecVal[0],tol ) )
-  assert( sstfAPI.compare( tf.constant([[0.,1.],[1.,0.]]),EigVecVal[1],tol ) )
+  assert( tfAPI.compare( tf.constant([1.,2.]),EigVecVal[0],tol ) )
+  assert( tfAPI.compare( tf.constant([[0.,1.],[1.,0.]]),EigVecVal[1],tol ) )
 
 
