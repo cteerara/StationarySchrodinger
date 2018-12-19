@@ -2,9 +2,21 @@
 > Stationary Schrodinger equation
 
 ## Usage
-Download the repository.
-This package require the tensorflow library
-Assuming PATH is the path from your current working directory to where StationarySchrodinger directory is, add the followings to the top of your script.
+  * Download the repository.
+
+  * This package require the tensorflow library. Make sure that the library is installed
+
+  * Assuming PATH is the path from your current working directory to where StationarySchrodinger directory is, add the followings to the top of your script.
+
+## Coverage
+  To perform coverage test. 
+
+  * go to the package directory '/StationarySchrodinger/'
+  * Run
+  ```sh
+  coverage run --source=stationaryschrodinger setup.py test
+  coverage report -m
+  ```
 ```sh
 import sys
 import tensorflow as tf
