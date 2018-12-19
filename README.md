@@ -135,27 +135,27 @@ See the script in StationarySchrodinger/example/SSExample.py for an example of u
 
     #### Functions:  
 
-    *   **FPoly(x,n)**  
+    * **FPoly(x,n)**  
 
-         INPUT: 
+       INPUT: 
 
-          tensorflow array of positions. x
+        tensorflow array of positions. x
 
-          size of basis n
+        size of basis n
 
-         OUTPUT: 
+       OUTPUT: 
 
-          a list *fpoly* of length n consists of tensorflow arrays of the fourier basis evaluated in the domain x.
+         a list *fpoly* of length n consists of tensorflow arrays of the fourier basis evaluated in the domain x.
 
-          len(*fpoly*) = 2*len(x)+1
+         len(*fpoly*) = 2*len(x)+1
 
-          fpoly[0] = constant tensorflow array of 1's of length len(x)
+         fpoly[0] = constant tensorflow array of 1's of length len(x)
 
-          fpoly[i] = sin(nmode*x) for odd i
+         fpoly[i] = sin(nmode*x) for odd i
 
-          fpoly[i] = cos(nmode*x) for even i
+         fpoly[i] = cos(nmode*x) for even i
 
-          An example of an output from input x of length 2 is [ <<1>>, <<sin(x)>>, <<cos(x)>>, <<sin(2x)>>, <<cos(2x)>> ] 
+         An example of an output from input x of length 2 is [ <<1>>, <<sin(x)>>, <<cos(x)>>, <<sin(2x)>>, <<cos(2x)>> ] 
 
           where << >> denotes a tensorflow array 
 
