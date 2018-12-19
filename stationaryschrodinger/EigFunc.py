@@ -1,7 +1,7 @@
 import math
 import tensorflow as tf
 tf.enable_eager_execution();
-import sstfAPI
+import tfAPI
 
 #-------------------------------------------#
 #---- Fourier polynomial -------------------#
@@ -19,7 +19,7 @@ def FPoly(x,n):
     fpoly = [];
     ones = []
     #> Fill up the 0th mode
-    for i in range(0,sstfAPI.tflen(x)):
+    for i in range(0,tfAPI.tflen(x)):
       ones.append(1.)
     
     fpoly.append(tf.constant(ones,dtype=x.dtype))
@@ -55,12 +55,12 @@ def project(F,b,x):
             LHS[i].append(0)
     for i in range(0,np):
         for j in range(0,np):
-            LHS[i][j] = sstfAPI.integrate(b[i],b[j],x)
+            LHS[i][j] = tfAPI.integrate(b[i],b[j],x)
     LHS = tf.Variable(LHS,dtype=x.dtype)
 
     RHS = []
     for i in range(0,np):
-        RHS.append(sstfAPI.integrate(b[i],F,x))
+        RHS.append(tfAPI.integrate(b[i],F,x))
     RHS = tf.Variable(RHS,dtype=x.dtype)
     
     return tf.reshape( tf.linalg.solve(LHS,rhs=tf.reshape(RHS,[len(b),1])), [len(b)] )
@@ -93,7 +93,7 @@ def hamil(x,b,c,V):
   for i in range(0,n):
     for j in range(0,i+1):
       # <b[i]|V|b[j]>
-      Bra_bi_V_bj_Ket = sstfAPI.integrate(b[i]*V,b[j],x)
+      Bra_bi_V_bj_Ket = tfAPI.integrate(b[i]*V,b[j],x)
       Hij[i][j] = Hij[i][j] + Bra_bi_V_bj_Ket
       if i != j:
         # Symmetry
@@ -111,6 +111,5 @@ def Eig(Hij):
   print('The lowest eigen value:')
   print(Val[0])
   print('The corresponding wavefunction has amplitudes:')
-  WaveFunc = Vec[:,0]
-  print(tf.reshape(WaveFunc,[3,1]))
+  print(Vec[:,0])
   return [Val,Vec]

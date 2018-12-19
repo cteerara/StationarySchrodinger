@@ -1,6 +1,6 @@
 import tensorflow as tf
 tf.enable_eager_execution();
-import sstfAPI
+import tfAPI
 
 def readPotentialEnergy(filepath):
     # Function reads potential potential energy from a text file
