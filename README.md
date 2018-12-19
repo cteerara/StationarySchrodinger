@@ -8,15 +8,6 @@
 
   * Assuming PATH is the path from your current working directory to where StationarySchrodinger directory is, add the followings to the top of your script.
 
-## Coverage
-  To perform coverage test. 
-
-  * go to the package directory '/StationarySchrodinger/'
-  * Run
-  ```sh
-  coverage run --source=stationaryschrodinger setup.py test
-  coverage report -m
-  ```
 ```sh
 import sys
 import tensorflow as tf
@@ -26,6 +17,15 @@ from stationaryschrodinger import sstfAPI
 from stationaryschrodinger import ssIO
 from stationaryschrodinger import EigFunc
 ```
+## Coverage
+  To perform coverage test. 
+
+  * go to the package directory '/StationarySchrodinger/'
+  * Run
+  ```sh
+  coverage run --source=stationaryschrodinger setup.py test
+  coverage report -m
+  ```
 Then call the functions in the modules as explained below.  
 See the script in StationarySchrodinger/example/SSExample.py for an example of usage.  
 
