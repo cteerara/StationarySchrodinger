@@ -101,15 +101,9 @@ def hamil(x,b,c,V):
         
   return tf.Variable(Hij,dtype=x.dtype)
 
-def Eig(Hij):
+def LowestEnergyState(Hij):
   # INPUT: n-by-n matrix of the hamiltonial
-  # OUTPUT: a list of eigen value and eigen vectors of the hamiltonian
-  # EigVecVal[0] = tensorflow array of eigen values
-  # EigVecVal[1] = tensorflow array of eigenvectors 
-  # Function also prints out the lowest energy state and the corresponding wavefunction's amplitudes on each basis. So the Eigen Vector Evec[i] represent the amplitude of basis b[i] 
+  # OUTPUT: Lowest Energy State and the corresponding eigenvector
   Val,Vec = tf.linalg.eigh(Hij,name=None)
-  print('The lowest eigen value:')
-  print(Val[0])
-  print('The corresponding wavefunction has amplitudes:')
-  print(Vec[:,0])
-  return [Val,Vec]
+  
+  return [Val[0],Vec[:,0]]

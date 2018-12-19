@@ -144,8 +144,8 @@ def test_Hij():
 
 def test_Eig():
   tol = 1e-6
-  EigVecVal = EigFunc.Eig(tf.constant([[2.,0.],[0.,1.]]))
-  assert( tfAPI.compare( tf.constant([1.,2.]),EigVecVal[0],tol ) )
-  assert( tfAPI.compare( tf.constant([[0.,1.],[1.,0.]]),EigVecVal[1],tol ) )
+  LES = EigFunc.LowestEnergyState(tf.constant([[2.,0.],[0.,1.]]))
+  assert( tfAPI.compare( tf.constant(1.),LES[0],tol ) )
+  assert( tfAPI.compare( tf.constant([0.,1.]), LES[1],tol ) )
 
 

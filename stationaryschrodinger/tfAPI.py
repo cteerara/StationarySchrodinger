@@ -46,7 +46,8 @@ def tflen(t):
     scalar1 = tf.constant(1,dtype=tf.int32)
     tdim = tfdim(t)
     if not compare(scalar1,tf.cast(tdim,scalar1.dtype),tol):
-        raise ValueError('input array is not 1D')
+        # I am not including this in the coverage because it is meant to throw a n error 
+        raise ValueError('input array is not 1D') # pragma: no cover
     return tf.reshape(tf.shape(t),[])
 
 def integrate(t1,t2,x):
@@ -60,11 +61,13 @@ def integrate(t1,t2,x):
     dx = x[1]-x[0]
     for i in range(0,tflen(x)-1):
       if (dx-(x[i+1]-x[i])) > 1e-6:
-        raise ValueError('Gridpoint are not evenly spaced. The difference of the spacings exceeds 1e-6')
+        # I am not including this in the coverage because it is meant to throw a n error 
+        raise ValueError('Gridpoint are not evenly spaced. The difference of the spacings exceeds 1e-6') # pragma: no cover
     scalar1 = tf.constant(1)
     tol = 1e-6
     if not compare(tflen(t1),tflen(t2),tol):  
-        raise ValueError('Input arrays are not the same shape')
+        # I am not including this in the coverage because it is meant to throw a n error 
+        raise ValueError('Input arrays are not the same shape') # pragma: no cover
     n = tflen(t1)
     tout = tf.reshape(tf.reduce_sum(t1[0:n-1]*t2[0:n-1]),[])
     return tout*dx

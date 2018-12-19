@@ -208,21 +208,23 @@ See the script in StationarySchrodinger/example/SSExample.py for an example of u
 	
 
 
-    * **Eig(Hij)**
+    * **LowestEnergyState(Hij)**
+      
+      The function returns the lowest energy state and the corresponding wave function.
 
-       Function prints out the lowest energy state and the corresponding wavefunction's amplitudes on each basis. The EigenVector[i] represents the amplitude of basis b[i], and the wavefunction corresponding to the lowest energy state is \Sum_0^n (EigenVector[i]b[i]) 
 
       INPUT: 
 
-              n-by-n tensorflow array represneting the the hamiltonial
+              n-by-n tensorflow array represnting the the Hamiltonian
 
       OUTPUT: 
 
-	            a list of eigen value and eigen vectors of the hamiltonian
-	
-	            EigVecVal[0] = tensorflow array of eigen values
-	
-	            EigVecVal[1] = tensorflow array of eigenvectors 
+              A list of length 2 named LES where
+
+              LES[0] is the lowest energy stat of the Hamiltinian 
+        
+              LES[1] is the corresponding eigen vector
+
 	
 
           
