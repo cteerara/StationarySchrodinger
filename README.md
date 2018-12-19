@@ -52,11 +52,15 @@ See the script in StationarySchrodinger/example/SSExample.py for an example of u
           output[1] is a tensorflow array of potential energy value
 
     * **readConsts(filepath)**
+
          Function reads the basis size and constant from a text file
 
-         INPUT: path from the current working directory to an input file. Each line indicates the constant name followed by white space then the constant value
+         INPUT:
+           path from the current working directory to an input file. Each line indicates the constant name followed by white space then the constant value
 
-         OUTPUT: A list of constants. Each entry corresponds to each constants from the text file from top to bottom of the file
+         OUTPUT: 
+            A list of constants. Each entry corresponds to each constants from the text file from top to bottom of the file
+
 
          All the output will be of type float. If you intend to use them as an integer, you must cast them to int separately. 
 
@@ -69,41 +73,49 @@ See the script in StationarySchrodinger/example/SSExample.py for an example of u
     * **compare(t1,t2,tol)**
         Compare two 2D tensorflow arrays
 
-        INPUT: tensorflow arrays t1,t2
+        INPUT: 
+          tensorflow arrays t1,t2
 
-               tolerence tol
+          tolerence tol
 
-        OUTPUT: if (t1[i][j]-t2[i][j]) < tol for all (i,j) return true, else false
+        OUTPUT: 
+          if (t1[i][j]-t2[i][j]) < tol for all (i,j) return true, else false
 
 
     * **tfdim(t)**  
 
-        INPUT: tensorflow array t
+        INPUT: 
+          tensorflow array t
 
-        OUTPUT: n where n is the number of dimensions of t 
+        OUTPUT: 
+          n where n is the number of dimensions of t 
 
-                e.g., [1,1,1] has n == 1 (1D array) and [[1,1],[2,2]] has n==2 (2D array)
+          e.g., [1,1,1] has n == 1 (1D array) and [[1,1],[2,2]] has n==2 (2D array)
           
     * **tflen(t)**
 
-     INPUT: 1D tensorflow array t
+     INPUT: 
+      1D tensorflow array t
 
-     OUTPUT: n where n is the length of t
+     OUTPUT: 
+      n where n is the length of t
 
-            e.g., [1,1,1] has n==3
+      e.g., [1,1,1] has n==3
 
           
     * **integrate(t1,t2,x)** 
 
-     INPUT: 1D tensorflow arrays of the same length t1,t2,x
+     INPUT: 
+      1D tensorflow arrays of the same length t1,t2,x
 
-            t1 and t2 are vector representing a function defined on the domain x where x is an evenly spaced grid points
+      t1 and t2 are vector representing a function defined on the domain x where x is an evenly spaced grid points
 
-     OUTPUT: tout where tout = dx * \Sum_i(t1[i] * t2[i])
+     OUTPUT: 
+      tout where tout = dx * \Sum_i(t1[i] * t2[i])
 
-             dx = x[1]-x[0]
+      dx = x[1]-x[0]
 
-             tout is the result of a numerical integration of t1*t2
+      tout is the result of a numerical integration of t1*t2
 
 
           
@@ -115,28 +127,31 @@ See the script in StationarySchrodinger/example/SSExample.py for an example of u
 
     *   **FPoly(x,n)**  
 
-         INPUT: tensorflow array of positions. x
+         INPUT: 
+          tensorflow array of positions. x
 
-            size of basis n
+          size of basis n
 
-     OUTPUT: a list *fpoly* of length n consists of tensorflow arrays of the fourier basis evaluated in the domain x.
+         OUTPUT: 
+          a list *fpoly* of length n consists of tensorflow arrays of the fourier basis evaluated in the domain x.
 
-             len(*fpoly*) = 2*len(x)+1
+          len(*fpoly*) = 2*len(x)+1
 
-             fpoly[0] = constant tensorflow array of 1's of length len(x)
+          fpoly[0] = constant tensorflow array of 1's of length len(x)
 
-             fpoly[i] = sin(nmode*x) for odd i
+          fpoly[i] = sin(nmode*x) for odd i
 
-             fpoly[i] = cos(nmode*x) for even i
+          fpoly[i] = cos(nmode*x) for even i
 
-         An example of an output from input x of length 2 is [ <<1>>, <<sin(x)>>, <<cos(x)>>, <<sin(2x)>>, <<cos(2x)>> ] 
+          An example of an output from input x of length 2 is [ <<1>>, <<sin(x)>>, <<cos(x)>>, <<sin(2x)>>, <<cos(2x)>> ] 
 
-    where << >> denotes a tensorflow array 
+          where << >> denotes a tensorflow array 
 
   
     *   **project(F,b,x)** 
 
-          INPUT: tensorflow array F
+          INPUT: 
+            tensorflow array F
 
             A list of tensorflow arrays b where b[i] is the i-th basis of the basis set
 
@@ -144,49 +159,52 @@ See the script in StationarySchrodinger/example/SSExample.py for an example of u
 
             len(x) == len(F) == len(b[i])
 
-     OUTPUT: Tensorflow array A where A[i] is the coefficient of basis b[i] 
+         OUTPUT: 
+          Tensorflow array A where A[i] is the coefficient of basis b[i] 
 
-             and \Sum_0^n(A[i]B[i]) is the projection of F onto basis b
+          and \Sum_0^n(A[i]B[i]) is the projection of F onto basis b
 
-         A = inv( <b[i],b[j]> ) * <F,b[i]> where <> indicate an inner product
+          A = inv( <b[i],b[j]> ) * <F,b[i]> where <> indicate an inner product
 
   
 
     *   **hamil(x,b,c,V)**  
 
-         INPUT: tensroflow array x, b, V
+         INPUT: 
+          tensroflow array x, b, V
 
-            x defines the domain of the problem
+          x defines the domain of the problem
 
-            b is a list of tensorflow array where b[i] is the i-th basis set
+          b is a list of tensorflow array where b[i] is the i-th basis set
 
-            V is a tensorflow array defining the potential energy on the domain x
+          V is a tensorflow array defining the potential energy on the domain x
 
-   OUTPUT: the Hamiltinan H
+         OUTPUT: 
+          the Hamiltinan H
 
-           where H[i][j] = c*n^2 * delta_{ij} + <b[i] | V | b[j]>
+          where H[i][j] = c*n^2 * delta_{ij} + <b[i] | V | b[j]>
 
-            n is the wavenumber
+          n is the wavenumber
 
-           delta_{ij} = 1 if i == j and 0 otherwise
+          delta_{ij} = 1 if i == j and 0 otherwise
 
-         <| |> is the bra-ket notation
+          <| |> is the bra-ket notation
 
 
 
     * **Eig(Hij)**
+            Function prints out the lowest energy state and the corresponding wavefunction's amplitudes on each basis. The EigenVector[i] represents the amplitude of basis b[i], and the wavefunction corresponding to the lowest energy state is \Sum_0^n (EigenVector[i]b[i]) 
 
-          INPUT: n-by-n tensorflow array represneting the the hamiltonial
+          INPUT: 
+            n-by-n tensorflow array represneting the the hamiltonial
 
-   OUTPUT: a list of eigen value and eigen vectors of the hamiltonian
+          OUTPUT: 
+            a list of eigen value and eigen vectors of the hamiltonian
 
-   EigVecVal[0] = tensorflow array of eigen values
+            EigVecVal[0] = tensorflow array of eigen values
 
-   EigVecVal[1] = tensorflow array of eigenvectors 
+            EigVecVal[1] = tensorflow array of eigenvectors 
 
-  Function also prints out the lowest energy state and the corresponding wavefunction's amplitudes on each basis. 
-
-  The EigenVector[i] represents the amplitude of basis b[i], and the wavefunction corresponding to the lowest energy state is \Sum_0^n (EigenVector[i]b[i]) 
 
           
 
