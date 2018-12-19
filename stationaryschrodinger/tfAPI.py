@@ -60,7 +60,7 @@ def integrate(t1,t2,x):
     #> Handle inappopriate size/dim array
     dx = x[1]-x[0]
     for i in range(0,tflen(x)-1):
-      if (dx-(x[i+1]-x[i])) > 1e-6:
+      if (dx-(x[i+1]-x[i])) > 1e-4: # Tolerence for difference in dx. 
         # I am not including this in the coverage because it is meant to throw a n error 
         raise ValueError('Gridpoint are not evenly spaced. The difference of the spacings exceeds 1e-6') # pragma: no cover
     scalar1 = tf.constant(1)
