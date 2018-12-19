@@ -174,38 +174,38 @@ See the script in StationarySchrodinger/example/SSExample.py for an example of u
 
          OUTPUT: 
 
-          Tensorflow array A where A[i] is the coefficient of basis b[i] 
-
-          and \Sum_0^n(A[i]B[i]) is the projection of F onto basis b
-
-          A = inv( <b[i],b[j]> ) * <F,b[i]> where <> indicate an inner product
-
+	          Tensorflow array A where A[i] is the coefficient of basis b[i] 
+	
+	          and \Sum_0^n(A[i]B[i]) is the projection of F onto basis b
+	
+	          A = inv( <b[i],b[j]> ) * <F,b[i]> where <> indicate an inner product
+	
   
 
     *   **hamil(x,b,c,V)**  
 
          INPUT: 
 
-          tensroflow array x, b, V
-
-          x defines the domain of the problem
-
-          b is a list of tensorflow array where b[i] is the i-th basis set
-
-          V is a tensorflow array defining the potential energy on the domain x
+	          tensroflow array x, b, V
+	
+	          x defines the domain of the problem
+	
+	          b is a list of tensorflow array where b[i] is the i-th basis set
+	
+	          V is a tensorflow array defining the potential energy on the domain x
 
          OUTPUT: 
 
-          the Hamiltinan H
-
-          where H[i][j] = c*n^2 * delta_{ij} + <b[i] | V | b[j]>
-
-          n is the wavenumber
-
-          delta_{ij} = 1 if i == j and 0 otherwise
-
-          <| |> is the bra-ket notation
-
+	          the Hamiltinan H
+	
+	          where H[i][j] = c*n^2 * delta_{ij} + <b[i] | V | b[j]>
+	
+	          n is the wavenumber
+	
+	          delta_{ij} = 1 if i == j and 0 otherwise
+	
+	          <| |> is the bra-ket notation
+	
 
 
     * **Eig(Hij)**
@@ -213,16 +213,16 @@ See the script in StationarySchrodinger/example/SSExample.py for an example of u
 
           INPUT: 
 
-            n-by-n tensorflow array represneting the the hamiltonial
+              n-by-n tensorflow array represneting the the hamiltonial
 
           OUTPUT: 
 
-            a list of eigen value and eigen vectors of the hamiltonian
-
-            EigVecVal[0] = tensorflow array of eigen values
-
-            EigVecVal[1] = tensorflow array of eigenvectors 
-
+	            a list of eigen value and eigen vectors of the hamiltonian
+	
+	            EigVecVal[0] = tensorflow array of eigen values
+	
+	            EigVecVal[1] = tensorflow array of eigenvectors 
+	
 
           
 
