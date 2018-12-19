@@ -1,0 +1,4 @@
+# Constant in front of the laplacian
+c 1
+# size of basis set
+n 3

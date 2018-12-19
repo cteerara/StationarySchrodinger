@@ -69,17 +69,3 @@ def integrate(t1,t2,x):
     tout = tf.reshape(tf.reduce_sum(t1[0:n-1]*t2[0:n-1]),[])
     return tout*dx
 
-#t1 = tf.constant([[2,2],[2,2]])
-#t1dim = tfdim(t1)
-#tdim = tf.constant(2)
-#print(t1dim)
-#print(tdim)
-#print(compare(tf.reshape(t1dim,[1]),tf.reshape(tdim,[1])))
-#t1 = tf.constant(2,shape=[2,2],dtype=tf.float32)
-#print(t1)
-#
-#t1 = tf.constant([3,4])
-#t2 = tf.constant([1,2])
-#print(integrate(t1,t2))
-#x = integrate(t1,t2)
-#print(x)

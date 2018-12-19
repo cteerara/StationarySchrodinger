@@ -1,7 +1,7 @@
 import math
 import tensorflow as tf
 tf.enable_eager_execution();
-import tfAPI
+import sstfAPI
 
 #-------------------------------------------#
 #---- Fourier polynomial -------------------#
@@ -19,14 +19,13 @@ def FPoly(x,n):
     fpoly = [];
     ones = []
     #> Fill up the 0th mode
-    for i in range(0,tfAPI.tflen(x)):
+    for i in range(0,sstfAPI.tflen(x)):
       ones.append(1.)
     
     fpoly.append(tf.constant(ones,dtype=x.dtype))
     #> Fill up modes n > 0
     nmode = 1
     for i in range(1,np):
-        print(nmode)
         if i%2 == 1: # Sin mode
             fpoly.append(tf.math.sin(nmode*x))
         else:
@@ -56,18 +55,23 @@ def project(F,b,x):
             LHS[i].append(0)
     for i in range(0,np):
         for j in range(0,np):
-            LHS[i][j] = tfAPI.integrate(b[i],b[j],x)
+            LHS[i][j] = sstfAPI.integrate(b[i],b[j],x)
     LHS = tf.Variable(LHS,dtype=x.dtype)
 
     RHS = []
     for i in range(0,np):
-        RHS.append(tfAPI.integrate(b[i],F,x))
+        RHS.append(sstfAPI.integrate(b[i],F,x))
     RHS = tf.Variable(RHS,dtype=x.dtype)
     
-#    return tf.linalg.matmul(tf.linalg.inv(FPdotB_mat),tf.reshape(FdotB_vec,[len(b),1]))
     return tf.reshape( tf.linalg.solve(LHS,rhs=tf.reshape(RHS,[len(b),1])), [len(b)] )
 
 def hamil(x,b,c,V):
+  # INPUT: tensroflow array x, b, V
+  #        scalar value c
+  # OUTPUT: the Hamiltinan H
+  #         where H[i][j] = c*n^2 * delta_{ij} + <b[i]|V|b[j]>
+  #         delta_{ij} = 1 if i == j and 0 otherwise
+  #         <> is the bra-ket notation
   n = len(b)
   Hij = []
   for i in range(0,n):
@@ -89,7 +93,7 @@ def hamil(x,b,c,V):
   for i in range(0,n):
     for j in range(0,i+1):
       # <b[i]|V|b[j]>
-      Bra_bi_V_bj_Ket = tfAPI.integrate(b[i]*V,b[j],x)
+      Bra_bi_V_bj_Ket = sstfAPI.integrate(b[i]*V,b[j],x)
       Hij[i][j] = Hij[i][j] + Bra_bi_V_bj_Ket
       if i != j:
         # Symmetry
@@ -97,37 +101,16 @@ def hamil(x,b,c,V):
         
   return tf.Variable(Hij,dtype=x.dtype)
 
-def LowestEnergy(Hij):
-  EigVecVal = tf.linalg.eigh(Hij,name=None)
-  return EigVecVal
-
-#pi = 4*math.atan(1.0)
-###x = tf.constant([0,pi/2,pi,3*pi/2,2*pi],dtype=tf.float64)
-#n = 100
-#x = []
-#F = []
-#for i in range(0,n+1):
-#    x.append(i*2*pi/n)
-#   # F.append(math.sin(i*2*pi/n))
-#    F.append(1.0)
-#x = tf.constant(x,dtype=tf.float32)
-#F = tf.constant(F,dtype=x.dtype) 
-#
-#b = FPoly(x,3)
-#print("Haiiii")
-#print('*****************')
-#print('Basis vectors are')
-#for i in range(0,len(b)):
-#    print(b[i])
-#print('*****************')
-#print('PROJECTION OF F')
-#ProjV = project(F,b,x)
-#print(ProjV)
-#print('*****************')
-#print('HAMILTONIAN')
-#Hij = hamil(x,b,1,F)
-#print(Hij)
-#print('*****************')
-#print('EIGEN VALUES')
-#EigVecVal = LowestEnergy(Hij)
-#print(EigVecVal)
+def Eig(Hij):
+  # INPUT: n-by-n matrix of the hamiltonial
+  # OUTPUT: a list of eigen value and eigen vectors of the hamiltonian
+  # EigVecVal[0] = tensorflow array of eigen values
+  # EigVecVal[1] = tensorflow array of eigenvectors 
+  # Function also prints out the lowest energy state and the corresponding wavefunction's amplitudes on each basis. So the Eigen Vector Evec[i] represent the amplitude of basis b[i] 
+  Val,Vec = tf.linalg.eigh(Hij,name=None)
+  print('The lowest eigen value:')
+  print(Val[0])
+  print('The corresponding wavefunction has amplitudes:')
+  WaveFunc = Vec[:,0]
+  print(tf.reshape(WaveFunc,[3,1]))
+  return [Val,Vec]
