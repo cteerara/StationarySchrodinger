@@ -38,12 +38,17 @@ See the script in StationarySchrodinger/example/SSExample.py for an example of u
          Function reads potential potential energy from a text file
 
          INPUT: 
+
           path from the current working directory to the potential energy file 
+
           input file MUST NOT contain an empty line
 
          OUTPUT: 
+
           output list of length 2. 
+
           output[0] is a tensorflow array of positions
+
           output[1] is a tensorflow array of potential energy value
 
     * **readConsts(filepath)**
