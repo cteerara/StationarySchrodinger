@@ -113,17 +113,19 @@ See the script in StationarySchrodinger/example/SSExample.py for an example of u
           
     * **integrate(t1,t2,x)** 
 
-     INPUT: 
-      1D tensorflow arrays of the same length t1,t2,x
+	     INPUT: 
+	
+	      1D tensorflow arrays of the same length t1,t2,x
+	
+	      t1 and t2 are vector representing a function defined on the domain x where x is an evenly spaced grid points
+	
+	     OUTPUT: 
 
-      t1 and t2 are vector representing a function defined on the domain x where x is an evenly spaced grid points
-
-     OUTPUT: 
-      tout where tout = dx * \Sum_i(t1[i] * t2[i])
-
-      dx = x[1]-x[0]
-
-      tout is the result of a numerical integration of t1*t2
+	      tout where tout = dx * \Sum_i(t1[i] * t2[i])
+	
+	      dx = x[1]-x[0]
+	
+	      tout is the result of a numerical integration of t1*t2
 
 
           
@@ -136,11 +138,13 @@ See the script in StationarySchrodinger/example/SSExample.py for an example of u
     *   **FPoly(x,n)**  
 
          INPUT: 
+
           tensorflow array of positions. x
 
           size of basis n
 
          OUTPUT: 
+
           a list *fpoly* of length n consists of tensorflow arrays of the fourier basis evaluated in the domain x.
 
           len(*fpoly*) = 2*len(x)+1
@@ -159,6 +163,7 @@ See the script in StationarySchrodinger/example/SSExample.py for an example of u
     *   **project(F,b,x)** 
 
           INPUT: 
+
             tensorflow array F
 
             A list of tensorflow arrays b where b[i] is the i-th basis of the basis set
@@ -168,6 +173,7 @@ See the script in StationarySchrodinger/example/SSExample.py for an example of u
             len(x) == len(F) == len(b[i])
 
          OUTPUT: 
+
           Tensorflow array A where A[i] is the coefficient of basis b[i] 
 
           and \Sum_0^n(A[i]B[i]) is the projection of F onto basis b
@@ -179,6 +185,7 @@ See the script in StationarySchrodinger/example/SSExample.py for an example of u
     *   **hamil(x,b,c,V)**  
 
          INPUT: 
+
           tensroflow array x, b, V
 
           x defines the domain of the problem
@@ -188,6 +195,7 @@ See the script in StationarySchrodinger/example/SSExample.py for an example of u
           V is a tensorflow array defining the potential energy on the domain x
 
          OUTPUT: 
+
           the Hamiltinan H
 
           where H[i][j] = c*n^2 * delta_{ij} + <b[i] | V | b[j]>
@@ -204,9 +212,11 @@ See the script in StationarySchrodinger/example/SSExample.py for an example of u
             Function prints out the lowest energy state and the corresponding wavefunction's amplitudes on each basis. The EigenVector[i] represents the amplitude of basis b[i], and the wavefunction corresponding to the lowest energy state is \Sum_0^n (EigenVector[i]b[i]) 
 
           INPUT: 
+
             n-by-n tensorflow array represneting the the hamiltonial
 
           OUTPUT: 
+
             a list of eigen value and eigen vectors of the hamiltonian
 
             EigVecVal[0] = tensorflow array of eigen values
